@@ -13,6 +13,7 @@ const Usuarios = () => {
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
+    const [modalTitle, setModalTitle] = useState('Guardar usuario')
 
     const title = 'title test'
 
@@ -26,12 +27,43 @@ const Usuarios = () => {
         setUsuarios(response.data)
       } )
     }
+
+    const openModal = (op, id, name, username, email) => {
+      console.log()
+      setId(0)
+      setName('')
+      setUsername('')
+      setEmail('')
+      if(op === 1){
+        setModalTitle('Guardar usuario')
+      } else {
+        setModalTitle('Editar usuario')
+        setId(id)
+        setName(name)
+        setUsername(username)
+        setEmail(email)
+      }
+      window.setTimeout( ()=>{
+        document.getElementById('name').focus()
+      } )
+
+    }
   return (
     <div className='App'>
       <div className="container-fluid">
         <div className='row mt-2'>
           <div className='col-md-12 col-lg-8 offset-lg-2'>
-            <table className='table table-bordered'>
+            
+        <div className='row mt-3'>
+          <div className='col-md-4 offset-4'>
+              <div className='d-grix mx-auto'>
+                <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalUsuario' onClick={() => openModal(1)}>
+                  <i className='fa-solid fa-circle-plus'>  </i> Crear Usuario
+                </button>
+              </div>
+          </div>
+        </div>
+            <table className='table table-bordered mt-1'>
               <thead>
                 <tr> 
                   <th>#</th>
@@ -50,7 +82,7 @@ const Usuarios = () => {
                       <td>{usuario.username}</td>
                       <td>{usuario.email}</td>
                       <td>
-                        <button className='btn btn-warning mr-1'>
+                        <button className='btn btn-warning mr-1' data-bs-toggle='modal' data-bs-target='#modalUsuario' onClick={() => openModal(2, usuario.id, usuario.name, usuario.username, usuario.email)}>
                           <i className='fa-solid fa-edit'></i>
                         </button>
                         
@@ -65,15 +97,6 @@ const Usuarios = () => {
             </table>
           </div>
         </div>
-        <div className='row mt-3'>
-          <div className='col-md-4 offset-4'>
-              <div className='d-grix mx-auto'>
-                <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalUsuario'>
-                  <i className='fa-solid fa-circle-plus'>  </i> Crear Usuario
-                </button>
-              </div>
-          </div>
-        </div>
       </div>
 
       {/* Modal  */}
@@ -81,7 +104,7 @@ const Usuarios = () => {
         <div className='modal-dialog'>
           <div className='modal-content'>
             <div className='modal-header'>
-                <label className="h5">{title}</label>
+                <label className="h5">{modalTitle}</label>
                 <button type="button" className='btn-close' data-bs-dismiss='modal' aria-label='close'>
 
                 </button>
@@ -112,14 +135,17 @@ const Usuarios = () => {
                 value={email} 
                 onChange={(e)=> setEmail(e.target.value)}></input>
               </div>
-              <div className='d-grid col6 mx-auto'>
-                
-                <button className="bton btn-danger" data-ds-dismiss="modal">
-                  <i className='fa-solid fa-close'></i>Cerrar
-                </button>
-                <button className="bton btn-success">
-                  <i className='fa-solid fa-floppy-disk'></i>Guardar
-                </button>
+              <div className='row'>
+                <div className='col-12'>
+                  <button className="btn btn-danger float-end" data-ds-dismiss="modal">
+                    <i className='fa-solid fa-close'></i>Cerrar
+                  </button>
+
+                  <button className="btn btn-success float-end mr-2">
+                    <i className='fa-solid fa-floppy-disk'></i>Guardar
+                  </button>
+                  
+                </div>
               </div>
             </div>
           </div>
