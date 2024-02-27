@@ -112,10 +112,18 @@ const Usuarios = () => {
       </div>
 
       <UsuarioModal 
-        _id={id} _name={name} 
-        _username={username} 
-        _email={email} 
-        _modalTitle={modalTitle} sendDataToParent={handleDataFromChild}></UsuarioModal>
+        id={id}
+        setId={setId}
+        name={name} 
+        setName={setName}
+        username={username}
+        setUsername={setUsername} 
+        email={email} 
+        setEmail={setEmail}
+        modalTitle={modalTitle} 
+        sendDataToParent={handleDataFromChild}
+        // getUser={ name } 
+        ></UsuarioModal>
     </div>
   )
 }

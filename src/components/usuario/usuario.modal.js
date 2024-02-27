@@ -4,21 +4,17 @@ import axios from 'axios';
 
 
 
-function UsuarioModal({_id, _name, _username, _email, modalTitle, sendDataToParent}) {
+function UsuarioModal({id, setId, name, setName, username, setUsername, email, setEmail, modalTitle, sendDataToParent}) {
 
-  const [id, setId] = useState(0)
-  const [name, setName] = useState('')
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-
-  // window.setTimeout( ()=>{
-  //   document.getElementById('name').focus()
-  // }, 500 )
-
+  // const [id, setId] = useState(0)
+  // const [name, setName] = useState('')
+  // const [username, setUsername] = useState('')
+  // const [email, setEmail] = useState('')
 
   
   const validateUsuario = (op) =>{
     console.log(op)
+    console.log("name", name)
     sendDataToParent(op);
     // var parametros
     // var method
@@ -67,7 +63,7 @@ function UsuarioModal({_id, _name, _username, _email, modalTitle, sendDataToPare
                   <i className='fa-solid fa-gift'></i>
                 </span>
                 <input type="text" id='name' className='form-control' placeholder='Nombre'  
-                value={_name} 
+                value={name} 
                 onChange={(e)=> setName(e.target.value)}></input>
               </div>
               <div className='input-group mb-3'>
@@ -75,7 +71,7 @@ function UsuarioModal({_id, _name, _username, _email, modalTitle, sendDataToPare
                   <i className='fa-solid fa-gift'></i>
                 </span>
                 <input type="text" id='username' className='form-control' placeholder='Username' 
-                value={_username} 
+                value={username} 
                 onChange={(e)=> setUsername(e.target.value)}></input>
               </div>
               <div className='input-group mb-3'>
@@ -83,7 +79,7 @@ function UsuarioModal({_id, _name, _username, _email, modalTitle, sendDataToPare
                   <i className='fa-solid fa-gift'></i>
                 </span>
                 <input type="text" id='email' className='form-control' placeholder='Correo electronico' 
-                value={_email} 
+                value={email} 
                 onChange={(e)=> setEmail(e.target.value)}></input>
               </div>
               <div className='row'>
