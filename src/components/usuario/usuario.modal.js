@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import { show_alert } from '../../functions';
 import axios from 'axios';
 
@@ -12,38 +12,49 @@ function UsuarioModal({id, setId, name, setName, username, setUsername, email, s
   // const [email, setEmail] = useState('')
 
   
-  const validateUsuario = (op) =>{
-    console.log(op)
-    console.log("name", name)
-    sendDataToParent(op);
-    // var parametros
-    // var method
-    // if(name.trim() === ''){
-    //   show_alert('El nombre no puede quedar vacio', 'warning')
-    // } else if(username.trim() === '') {
-    //   show_alert('El username no puede quedar vacio', 'warning')
-    // } else if(email.trim() === '') {
-    //   show_alert('El email no puede quedar vacio', 'warning')
+  const validateUsuario = () =>{
+    var parametros
+    if(name.trim() === ''){
+      show_alert('El nombre no puede quedar vacio', 'warning')
+      return 
+    } 
+    else if(username.trim() === '') {
+      show_alert('El username no puede quedar vacio', 'warning')
+      return 
+    } else if(email.trim() === '') {
+      show_alert('El email no puede quedar vacio', 'warning')
+      return 
       
-    // } else {
-    //   parametros = {name: name.trim(), username: username.trim(), email: email.trim()}
-    //   if(op === 1) {
-    //     method = 'POST'
-    //   } else {
-    //     method = 'PUT'
-    //   }
-    //   enviarSolicitud(method, parametros)
-    // }
+    } else {
+      parametros = {id: id, name: name.trim(), username: username.trim(), email: email.trim()}
+      
+      enviarSolicitud(parametros)
+    }
   }
 
-  const enviarSolicitud = async(method, data, url) => {
+  const enviarSolicitud = async(data) => {
+    var method
+    if(data.id === 0) {
+      method = 'POST'
+    } else {
+      method = 'PUT'
+    }
+    const url = 'localhost:3000'
+    console.log("method", method)
+    console.log("data", data)
     await axios({method, url: url, data}).then( (response)=>{
       console.log("response", response)
       document.getElementById('btnClose').click()
+      sendDataToParent(method);
       
     } )
     .catch((error)=>{
-      show_alert(error, 'error')
+      // show_alert(error, 'error')
+      
+      // pruebas para guardado exitoso
+      document.getElementById('btnClose').click()
+      sendDataToParent(0); 
+
     })
   }
     return (
@@ -84,7 +95,7 @@ function UsuarioModal({id, setId, name, setName, username, setUsername, email, s
               </div>
               <div className='row'>
                 <div className='col-12'>
-                  <button id="btnClose" className="btn btn-danger float-end" data-ds-dismiss="modal">
+                  <button id="btnClose" className="btn btn-danger float-end" data-bs-dismiss="modal">
                     <i className='fa-solid fa-close'></i>Cerrar
                   </button>
         

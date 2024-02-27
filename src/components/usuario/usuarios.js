@@ -1,7 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import { show_alert } from '../../functions';
 
 import UsuarioModal from './usuario.modal';
 
@@ -9,7 +6,7 @@ import UsuarioModal from './usuario.modal';
 import { getUsers } from '../../services/libros.service';
 
 const Usuarios = () => {
-    const url = 'http://api-usuarios.run'
+    // const url = 'http://api-usuarios.run'
     const [usuarios, setUsuarios] = useState([])
 
     const [id, setId] = useState(0)
@@ -21,9 +18,11 @@ const Usuarios = () => {
     const [dataFromChild, setDataFromChild] = useState(0);
 
     const handleDataFromChild = (data) => {
-      console.log("data", data)
       setDataFromChild(data);
       console.log("dataFromChild", dataFromChild)
+      if(dataFromChild === 0) {
+        onGetUsers()
+      }
     }
 
 
@@ -37,17 +36,13 @@ const Usuarios = () => {
       } )
     }
 
-    const getData = (data) => {
-      console.log("data", data)
-    }
-
-    const openModal = (op, id, name, username, email) => {
+    const openModal = (method, id, name, username, email) => {
       console.log()
       setId(0)
       setName('')
       setUsername('')
       setEmail('')
-      if(op === 1){
+      if(method === 'POST'){
         setModalTitle('Guardar usuario')
       } else {
         setModalTitle('Editar usuario')
@@ -69,7 +64,7 @@ const Usuarios = () => {
         <div className='row mt-3'>
           <div className='col-md-4 offset-4'>
               <div className='d-grix mx-auto'>
-                <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalUsuario' onClick={() => openModal(1)}>
+                <button className='btn btn-dark' data-bs-toggle='modal' data-bs-target='#modalUsuario' onClick={() => openModal('POST')}>
                   <i className='fa-solid fa-circle-plus'>  </i> Crear Usuario
                 </button>
               </div>
@@ -94,7 +89,7 @@ const Usuarios = () => {
                       <td>{usuario.username}</td>
                       <td>{usuario.email}</td>
                       <td>
-                        <button className='btn btn-warning mr-1' data-bs-toggle='modal' data-bs-target='#modalUsuario' onClick={() => openModal(2, usuario.id, usuario.name, usuario.username, usuario.email)}>
+                        <button className='btn btn-warning mr-1' data-bs-toggle='modal' data-bs-target='#modalUsuario' onClick={() => openModal('PUT', usuario.id, usuario.name, usuario.username, usuario.email)}>
                           <i className='fa-solid fa-edit'></i>
                         </button>
                         
@@ -122,7 +117,6 @@ const Usuarios = () => {
         setEmail={setEmail}
         modalTitle={modalTitle} 
         sendDataToParent={handleDataFromChild}
-        // getUser={ name } 
         ></UsuarioModal>
     </div>
   )
