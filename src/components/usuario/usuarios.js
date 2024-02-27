@@ -1,21 +1,31 @@
 import React, {useEffect, useState} from 'react'
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { show_alert } from '../functions';
+import { show_alert } from '../../functions';
+
+import UsuarioModal from './usuario.modal';
 
 //services
-import { getUsers } from '../services/libros.service';
+import { getUsers } from '../../services/libros.service';
 
 const Usuarios = () => {
     const url = 'http://api-usuarios.run'
     const [usuarios, setUsuarios] = useState([])
+
     const [id, setId] = useState(0)
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
-    const [modalTitle, setModalTitle] = useState('Guardar usuario')
 
-    const title = 'title test'
+    const [modalTitle, setModalTitle] = useState('')
+    const [dataFromChild, setDataFromChild] = useState(0);
+
+    const handleDataFromChild = (data) => {
+      console.log("data", data)
+      setDataFromChild(data);
+      console.log("dataFromChild", dataFromChild)
+    }
+
 
     useEffect( ()=>{
       onGetUsers()
@@ -23,9 +33,12 @@ const Usuarios = () => {
 
     const onGetUsers = async () =>{
       getUsers().then( (response)=>{
-        console.log("response¨¨¨***", response)
         setUsuarios(response.data)
       } )
+    }
+
+    const getData = (data) => {
+      console.log("data", data)
     }
 
     const openModal = (op, id, name, username, email) => {
@@ -43,11 +56,10 @@ const Usuarios = () => {
         setUsername(username)
         setEmail(email)
       }
-      window.setTimeout( ()=>{
-        document.getElementById('name').focus()
-      } )
-
+      
     }
+
+    
   return (
     <div className='App'>
       <div className="container-fluid">
@@ -99,58 +111,11 @@ const Usuarios = () => {
         </div>
       </div>
 
-      {/* Modal  */}
-      <div id="modalUsuario" className='modal fade' aria-hidden='true'>
-        <div className='modal-dialog'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-                <label className="h5">{modalTitle}</label>
-                <button type="button" className='btn-close' data-bs-dismiss='modal' aria-label='close'>
-
-                </button>
-            </div>
-            <div className='modal-body'>
-              <input className='w-100' type="hidden" id='id'></input>
-              <div className='input-group mb-3'>
-                <span className='input-group-text'>
-                  <i className='fa-solid fa-gift'></i>
-                </span>
-                <input type="text" id='name' className='form-control' placeholder='Nombre' 
-                value={name} 
-                onChange={(e)=> setName(e.target.value)}></input>
-              </div>
-              <div className='input-group mb-3'>
-                <span className='input-group-text'>
-                  <i className='fa-solid fa-gift'></i>
-                </span>
-                <input type="text" id='username' className='form-control' placeholder='Username' 
-                value={username} 
-                onChange={(e)=> setUsername(e.target.value)}></input>
-              </div>
-              <div className='input-group mb-3'>
-                <span className='input-group-text'>
-                  <i className='fa-solid fa-gift'></i>
-                </span>
-                <input type="text" id='email' className='form-control' placeholder='Correo electronico' 
-                value={email} 
-                onChange={(e)=> setEmail(e.target.value)}></input>
-              </div>
-              <div className='row'>
-                <div className='col-12'>
-                  <button className="btn btn-danger float-end" data-ds-dismiss="modal">
-                    <i className='fa-solid fa-close'></i>Cerrar
-                  </button>
-
-                  <button className="btn btn-success float-end mr-2">
-                    <i className='fa-solid fa-floppy-disk'></i>Guardar
-                  </button>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <UsuarioModal 
+        _id={id} _name={name} 
+        _username={username} 
+        _email={email} 
+        _modalTitle={modalTitle} sendDataToParent={handleDataFromChild}></UsuarioModal>
     </div>
   )
 }

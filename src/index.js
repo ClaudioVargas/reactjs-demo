@@ -4,7 +4,7 @@ import './index.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle'
 import "bootstrap/dist/css/bootstrap.min.css";
-import Usuarios from './components/usuarios'
+import Usuarios from './components/usuario/usuarios'
 
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
